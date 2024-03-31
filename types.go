@@ -7,6 +7,6 @@ var (
 )
 
 type Todo struct {
-	ID   uint64 `json:"id"`
-	Task string `json:"task"`
+	ID   uint64 `json:"id" db:"id"`
+	Task string `json:"task" db:"task"`
 }

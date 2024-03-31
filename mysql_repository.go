@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
 	"time"
 
@@ -32,13 +33,42 @@ func NewMySQLRepository(ctx context.Context, conf *mysql.Config) (*MySQLReposito
 }
 
 func (m *MySQLRepository) List(ctx context.Context) ([]Todo, error) {
-	panic("not implemented") // TODO: Implement
+	var todos []Todo
+	if err := m.db.SelectContext(ctx, &todos, "SELECT * FROM todos"); err != nil {
+		return nil, fmt.Errorf("failed to select todos: %w", err)
+	}
+	return todos, nil
 }
 
 func (m *MySQLRepository) Create(ctx context.Context, task string) error {
-	panic("not implemented") // TODO: Implement
+	if _, err := m.db.ExecContext(ctx, "INSERT INTO todos (task) VALUES (?)", task); err != nil {
+		return fmt.Errorf("failed to insert todo: %w", err)
+	}
+	return nil
 }
 
 func (m *MySQLRepository) Done(ctx context.Context, id uint64) error {
-	panic("not implemented") // TODO: Implement
+	res, err := m.db.ExecContext(ctx, "DELETE FROM todos WHERE id = ?", id)
+	if err != nil {
+		return fmt.Errorf("failed to delete todo: %w", err)
+	}
+	deleted, err := res.RowsAffected()
+	if err != nil {
+		return fmt.Errorf("failed to get rows affected: %w", err)
+	}
+	if deleted == 0 {
+		return ErrNotFound
+	}
+	return nil
+}
+
+func (m *MySQLRepository) Init(ctx context.Context) error {
+	_, err := m.db.ExecContext(ctx, "CREATE TABLE IF NOT EXISTS todos (id INT AUTO_INCREMENT PRIMARY KEY, task TEXT)")
+	if err != nil {
+		return fmt.Errorf("failed to create table: %w", err)
+	}
+	if _, err := m.db.ExecContext(ctx, "TRUNCATE TABLE todos"); err != nil {
+		return fmt.Errorf("failed to truncate table: %w", err)
+	}
+	return nil
 }

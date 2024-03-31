@@ -20,7 +20,13 @@ func NewInMemoryRepository() *InMemoryRepository {
 func (i *InMemoryRepository) List(ctx context.Context) ([]Todo, error) {
 	i.mutex.Lock()
 	defer i.mutex.Unlock()
-	return i.todos, nil
+	if len(i.todos) == 0 {
+		var emptyTodos []Todo
+		return emptyTodos, nil
+	}
+	copiedTodos := make([]Todo, len(i.todos))
+	copy(copiedTodos, i.todos)
+	return copiedTodos, nil
 }
 
 func (i *InMemoryRepository) Create(ctx context.Context, task string) error {
@@ -44,4 +50,12 @@ func (i *InMemoryRepository) Done(ctx context.Context, id uint64) error {
 		}
 	}
 	return ErrNotFound
+}
+
+func (i *InMemoryRepository) Init(ctx context.Context) error {
+	i.mutex.Lock()
+	defer i.mutex.Unlock()
+	i.todos = make([]Todo, 0)
+	i.latestID = 0
+	return nil
 }

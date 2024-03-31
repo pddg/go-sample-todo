@@ -12,6 +12,7 @@ type TodoRepository interface {
 	List(ctx context.Context) ([]Todo, error)
 	Create(ctx context.Context, task string) error
 	Done(ctx context.Context, id uint64) error
+	Init(ctx context.Context) error
 }
 
 func NewListTodosHandler(repo TodoRepository) func(w http.ResponseWriter, r *http.Request) {
