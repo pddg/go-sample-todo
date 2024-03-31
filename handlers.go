@@ -80,3 +80,14 @@ func NewDoneTodoHandler(repo TodoRepository) func(w http.ResponseWriter, r *http
 		w.WriteHeader(http.StatusOK)
 	}
 }
+
+func NewInitHandler(repo TodoRepository) func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		if err := repo.Init(r.Context()); err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(err.Error()))
+			return
+		}
+		w.WriteHeader(http.StatusOK)
+	}
+}

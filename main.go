@@ -37,6 +37,7 @@ func runServer(config *mysql.Config, port uint) error {
 	mux.HandleFunc("GET /todo", NewListTodosHandler(repo))
 	mux.HandleFunc("POST /todo", NewCreateTodoHandler(repo))
 	mux.HandleFunc("DELETE /todo/{id}", NewDoneTodoHandler(repo))
+	mux.HandleFunc("POST /initialize", NewInitHandler(repo))
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 	})
