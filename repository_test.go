@@ -29,10 +29,10 @@ func newMySQLConfig() *mysql.Config {
 	}
 }
 
-func Test_repository(t *testing.T) {
+func Test_TodoRepository(t *testing.T) {
 	t.Parallel()
 
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Millisecond)
 	defer cancel()
 	mysqlRepo, err := NewMySQLRepository(ctx, newMySQLConfig())
 	require.NoError(t, err)
@@ -56,7 +56,8 @@ func Test_repository(t *testing.T) {
 			t.Parallel()
 
 			// Setup
-			ctx := context.Background()
+			ctx, cancel := context.WithTimeout(context.Background(), 100*time.Millisecond)
+			t.Cleanup(cancel)
 			err := tc.repo.Init(ctx)
 			require.NoError(t, err)
 

@@ -32,7 +32,7 @@ func AccessLogMiddleware(next http.Handler) http.Handler {
 		startTime := time.Now()
 		interceptor := &WriteInterceptor{w: w}
 		next.ServeHTTP(interceptor, r)
-		responseTime := time.Now().Sub(startTime)
+		responseTime := time.Since(startTime)
 		logger.Info("access log", "method", r.Method, "path", r.URL.Path, "status", interceptor.status, "response_time", responseTime)
 	})
 }

@@ -108,7 +108,11 @@ func main() {
 	}
 
 	if err := runServer(conf, port); err != nil {
-		logger.Error("Server failed", "error", err)
-		os.Exit(1)
+		if errors.Is(err, context.Canceled) {
+			logger.Info("Server stopped")
+		} else {
+			logger.Error("Server failed", "error", err)
+			os.Exit(1)
+		}
 	}
 }
