@@ -52,6 +52,8 @@ jobs:
     needs: [build-and-test]
     if: github.ref_name == 'main'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
         with:
