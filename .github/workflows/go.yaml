@@ -48,6 +48,7 @@ jobs:
           path: |
             build/go-sample-todo_*.deb
           compression-level: 0
+          if-no-files-found: error
   release:
     needs: [build-and-test]
     if: github.ref_name == 'main'
@@ -74,4 +75,4 @@ jobs:
           fi
           git tag "${VERSION}"
           git push origin "${VERSION}"
-          gh release create "${VERSION}" --generate-notes build/*.deb
+          gh release create "${VERSION}" --generate-notes *.deb
