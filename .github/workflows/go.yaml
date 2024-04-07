@@ -39,3 +39,37 @@ jobs:
         run: make test
       - name: Run E2E test
         run: make test-e2e 
+      - name: Create DEB package
+        run: make package
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: sample-todo-deb
+          path: |
+            build/go-sample-todo_*.deb
+          compression-level: 0
+  release:
+    needs: [build-and-test]
+    if: github.ref_name == 'main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: sample-todo-deb
+      - name: Create release if need
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="$(cat VERSION)"
+          if git show-ref --tags | grep -qwF "refs/tags/${VERSION}"
+          then
+            echo "${VERSION} exists. Skipped."
+            exit 0
+          fi
+          git tag "${VERSION}"
+          git push origin "${VERSION}"
+          gh release create "${VERSION}" --generate-notes build/*.deb
