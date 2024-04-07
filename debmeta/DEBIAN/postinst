@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+if [ ! -f /usr/local/bin/sample-todo ]; then
+    ln -s /opt/go-sample-todo/bin/sample-todo /usr/local/bin/sample-todo
+fi
+
+systemctl daemon-reload
+systemctl enable sample-todo.service
+systemctl start sample-todo.service

@@ -1,0 +1,10 @@
+[Unit]
+Description=Sample todo app written in Go
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/sample-todo -in-memory
+
+[Install]
+WantedBy=multi-user.target

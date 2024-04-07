@@ -126,7 +126,7 @@ func (c *APIClient) Init(ctx context.Context) error {
 }
 
 func runTodoServer(t *testing.T, port string) {
-	bin := "../sample-todo"
+	bin := "../build/sample-todo"
 	args := []string{"-port", port}
 	switch port {
 	case inMemoryPort:

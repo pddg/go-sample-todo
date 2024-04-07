@@ -1,0 +1,5 @@
+Package: go-sample-todo
+Maintainer: pddg <pudding@pudding.dev>
+Architecture: amd64
+Version: %VERSION%
+Description: This is a sample todo app written in Go
