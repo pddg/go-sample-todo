@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+if [ -f /usr/local/bin/sample-todo ]; then
+    unlink /usr/local/bin/sample-todo
+fi

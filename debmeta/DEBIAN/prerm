@@ -1,0 +1,4 @@
+#!/bin/sh -e
+
+systemctl stop sample-todo.service
+systemctl disable sample-todo.service
