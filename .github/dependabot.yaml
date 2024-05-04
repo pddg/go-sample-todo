@@ -1,0 +1,11 @@
+version: 2
+
+updates:
+  - package-ecosystem: "github-actions"
+    directroy: "/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gomod"
+    directroy: "/"
+    schedule:
+      interval: "weekly"
