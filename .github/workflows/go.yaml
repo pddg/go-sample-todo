@@ -67,7 +67,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          VERSION="$(cat VERSION)"
+          VERSION="v$(cat VERSION)"
           if git show-ref --tags | grep -qwF "refs/tags/${VERSION}"
           then
             echo "${VERSION} exists. Skipped."
