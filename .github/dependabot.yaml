@@ -2,10 +2,10 @@ version: 2
 
 updates:
   - package-ecosystem: "github-actions"
-    directroy: "/"
+    directory: "/"
     schedule:
       interval: "weekly"
   - package-ecosystem: "gomod"
-    directroy: "/"
+    directory: "/"
     schedule:
       interval: "weekly"
