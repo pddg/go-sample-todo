@@ -7,9 +7,9 @@ require (
 	github.com/jmoiron/sqlx v1.4.0
 )
 
-require filippo.io/edwards25519 v1.2.0 // indirect
-
 require (
-	github.com/stretchr/testify v1.12.0
-	gopkg.in/yaml.v3 v3.0.1 // indirect
+	filippo.io/edwards25519 v1.2.0 // indirect
+	go.yaml.in/yaml/v3 v3.0.5 // indirect
 )
+
+require github.com/stretchr/testify v1.12.1
