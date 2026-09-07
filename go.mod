@@ -3,7 +3,7 @@ module github.com/pddg/go-sample-todo
 go 1.24.0
 
 require (
-	github.com/go-sql-driver/mysql v1.10.0
+	github.com/go-sql-driver/mysql v1.10.1
 	github.com/jmoiron/sqlx v1.4.0
 )
 
